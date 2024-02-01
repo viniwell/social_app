@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm
+from .forms import LoginForm, UserRegistrationForm
+
 # Create your views here.
 
+@login_required
+def dashboard(request):
+    return render(request, 'social_account/dashboard.html', {'section':'dashboard'})
 
 def user_login(request):
     if request.method == 'POST':
@@ -17,9 +22,22 @@ def user_login(request):
                     login(request, user)
                     return HttpResponse('Authenticated successfully')
                 else:
-                    return HttpResponse('Disebled account')
+                    return HttpResponse('Disabled account')
             else:
                 return HttpResponse('Invalid login')
     else:
         form=LoginForm()
     return render(request, 'social_account/login.html', {'form':form})
+
+def register(request):
+    if request.method=='POST':
+        form=UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user=form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            return render(request, 'social_account/register_done.html', {'new_user':new_user})
+
+    else:
+        form=UserRegistrationForm()
+    return render(request,'social_account/register.html',{'form':form})
