@@ -1,13 +1,13 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import dashboard, register
+from .views import dashboard, register, edit, user_logout
 
 urlpatterns = [
     # path('login/', user_login, name='login'),
     
     # url-адреси для входу та виходу
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', user_logout, name='logout'),
     
     # url-адреси для зміни пароля
     path('password-change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
@@ -20,4 +20,5 @@ urlpatterns = [
         
     path('', dashboard, name='dashboard'),
     path('register/', register, name='register'),
+    path('edit/', edit, name='edit'),
 ]

@@ -14,6 +14,13 @@ class ProfileEditForm(forms.ModelForm):
         model=Profile
         fields=['date_of_birth', "photo"]
 
+    def clean_email(self):
+        data=self.cleaned_data['email']
+        qs=User.objects.exclude(id=self.instance.id).filter(email=data)
+        if qs.exists():
+            raise forms.ValidationError('Email is already used')
+        return data
+
 class LoginForm(forms.Form):
     username=forms.CharField(empty_value='Enter your username or email', label='Enter your username or email')
     password=forms.CharField(widget=forms.PasswordInput(), empty_value='Enter password',)
@@ -33,3 +40,10 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Passwords do not match')
         else:
             return cd['password2']
+        
+    def clean_email(self):
+        data=self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError('Email is already used')
+        return data
+    
