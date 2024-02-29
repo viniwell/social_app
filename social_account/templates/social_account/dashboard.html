@@ -4,7 +4,17 @@
 
 {% block content %}
 <h2>Dashboard</h2>
-<p>Welcome to dashboard</p>
+{% with total_images_created=request.user.images.count %}
+<p>Welcome to dashboard
+    You have bookmarked {{total_images_created}} image{{ total_images_created|pluralize }}
+</p>
+{% endwith %}
 
-You can <a href="{% url "edit" %}">edit your profile here</a>;<a href="{% url "password_change" %}">change password here</a>
+<p>
+    Drag the following button to your toolbar to bookmarks images from other sites
+    <a href="javascript:{% include "bookmarklet-launcher.js" %}" class="btn btn-success">BookMark It</a>
+</p>
+<p>You can <a href="{% url "edit" %}">edit your profile here</a>;<a href="{% url "password_change" %}">change password here</a></p>
+
+
 {% endblock content %}

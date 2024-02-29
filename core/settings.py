@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-hda=s=l%(&7(ex3i@rq0x%5eca&lnp(+-2i*cv&qb)%962xkm1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,9 +39,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
+    "crispy_bootstrap5",
+#    "django_extentions",
     
     "images",
 ]
+
+CRISPY_ALLOEWD_TEMPLATE_PACKS="bootstrap5"
+
+CRISPY_TEMPLATE_PACK="bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
